@@ -1,6 +1,8 @@
 import { Text, View, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 
+import FetchResults from '@/functions/FetchResults';
+
 import { SearchBar } from '@/components/SearchBar';
 import { SearchResult } from '@/components/SearchResult';
 
@@ -10,9 +12,8 @@ export default function TabOneScreen() {
   const [queryString, setQueryString] = useState<string>("");
 
   useEffect(() => {
-
-
-
+    const tempRes = FetchResults(queryString)
+    console.log("Temporary results:", tempRes)
   }, [queryString])
 
   return (
