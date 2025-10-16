@@ -2,20 +2,23 @@ import { Text, View, TextInput } from 'react-native';
 
 import { useState } from 'react';
 
+interface Props {
+  queryString: string,
+  setQueryString: (value: string) => void;
+}
+
 export function SearchBar(
+  props: Props
 ) {
-  const [searchQuery, setSearchQuery] = useState<string>()
+
+
   function onChangeText(inputString: string) {
     console.log("New query : ", inputString);
-    setSearchQuery(inputString)
-
+    props.setQueryString(inputString)
   }
   return (
     <View>
       <TextInput onChangeText={onChangeText} />
-      <Text>Station : {searchQuery}</Text>
-      <Text>Ligne</Text>
-      <Text>Direction</Text>
     </View>
   )
 }

@@ -1,12 +1,25 @@
 import { Text, View, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
 
-import { SearchBar } from '@/components/Search';
+import { SearchBar } from '@/components/SearchBar';
+import { SearchResult } from '@/components/SearchResult';
+
+
 export default function TabOneScreen() {
+  const [isSearchDisplayed, setIsSearchDisplayed] = useState<boolean>(false);
+  const [queryString, setQueryString] = useState<string>("");
+
+  useEffect(() => {
+
+
+
+  }, [queryString])
+
   return (
     <View style={styles.container}>
-
       <Text>Here is the search section</Text>
-      <SearchBar />
+      <SearchBar queryString={queryString} setQueryString={setQueryString} />
+      <SearchResult />
     </View>
   );
 }
