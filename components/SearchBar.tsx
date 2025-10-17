@@ -13,11 +13,12 @@ export function SearchBar(
 
 
   function onChangeText(inputString: string) {
-    console.log("New query : ", inputString);
     props.setQueryString(inputString)
   }
   return (
     <View>
+
+      <Text>Yo</Text>
       <TextInput onChangeText={onChangeText} />
     </View>
   )

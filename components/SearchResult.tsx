@@ -3,33 +3,31 @@ import { Text, View, TextInput } from 'react-native';
 import { useState } from 'react';
 
 interface Query {
-  name?: string;
-  lineNumber?: number;
-  direction?: string;
-  isSearchDisplayed: boolean;
-
+  stationId: string
 }
-export function SearchResult(
+export async function SearchResult(
   props: Query
 ) {
-  const [searchQuery, setSearchQuery] = useState<string>()
-  function onChangeText(inputString: string) {
-    console.log("New query : ", inputString);
-    setSearchQuery(inputString)
+  if (!props.stationId) return null;
+  console.log("New station : ", props.stationId);
 
-  }
-  if (props.isSearchDisplayed == false) {
-    return null;
-  }
-  else {
+  const stationInfo = await fetch(
+    "https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=STIF:StopPoint:Q:" +
+    props.stationId +
+    ":",
+    {
+      headers: {
+        method: "GET",
+        apikey: "",
+      },
+    }
+  )
 
-    return (
-      <View>
-        <TextInput onChangeText={onChangeText} />
-        <Text>Station : {searchQuery}</Text>
-        <Text>Ligne : {props.lineNumber}</Text>
-        <Text>Direction</Text>
-      </View>
-    )
-  }
+
+  return (
+    <View>
+      <Text>{"hello"}</Text>
+      <Text>Direction</Text>
+    </View>
+  )
 }
