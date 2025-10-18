@@ -8,9 +8,11 @@ interface RecordItem {
   recordid: string;
   fields: {
     id_ref_zdc?: string;
+    nom_gares: string;
     [key: string]: unknown;
   };
 }
+
 type Results = RecordItem[];
 
 export default function TabOneScreen() {
@@ -18,24 +20,30 @@ export default function TabOneScreen() {
   const [queryString, setQueryString] = useState<string>("");
   const [results, setResults] = useState<Results | null>(null);
 
-  async function FetchResults(queryString: string) {
+  const BASE_URL = "https://data.iledefrance-mobilites.fr/api/records/1.0/search/";
+
+  async function fetchResults(queryString: string) {
 
     const res = await fetch(
       "https://data.iledefrance-mobilites.fr/api/records/1.0/search/?rows=40&sort=res_com&q=" +
       queryString +
       "&dataset=emplacement-des-gares-idf&timezone=Europe/Berlin&lang=fr"
     )
-
     const data = await res.json()
     setResults(data.records)
+  }
 
-
+  async function fetchDepartures(stationId: string) {
+    const url = `${BASE_URL}?dataset=arrets-lignes-tps-reel&q=${stationId}&rows=20&timezone=Europe/Berlin&lang=fr`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.records;
   }
 
 
   useEffect(() => {
-    if (!queryString) return;
-    FetchResults(queryString)
+    if (!queryString || queryString.length < 3) return;
+    fetchResults(queryString)
     //console.log("Temporary results:", tempRes)
   }, [queryString])
 
@@ -48,7 +56,9 @@ export default function TabOneScreen() {
         keyExtractor={(item) => item.fields.id_ref_zdc ?? item.recordid}
         renderItem={({ item }) =>
           item.fields.id_ref_zdc ? (
-            <SearchResult stationId={item.fields.id_ref_zdc} />
+            <SearchResult
+              stationName={item.fields.nom_gares}
+              stationId={item.fields.id_ref_zdc} />
           ) : null
         }
 

@@ -3,7 +3,8 @@ import { Text, View, TextInput } from 'react-native';
 import { useState } from 'react';
 
 interface Query {
-  stationId: string
+  stationId: string,
+  stationName: string
 }
 export async function SearchResult(
   props: Query
@@ -11,23 +12,22 @@ export async function SearchResult(
   if (!props.stationId) return null;
   console.log("New station : ", props.stationId);
 
-  const stationInfo = await fetch(
-    "https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=STIF:StopPoint:Q:" +
-    props.stationId +
-    ":",
-    {
-      headers: {
-        method: "GET",
-        apikey: "",
-      },
-    }
-  )
+  // const stationInfo = await fetch(
+  //   "https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=STIF:StopPoint:Q:" +
+  //   props.stationId +
+  //   ":",
+  //   {
+  //     headers: {
+  //       method: "GET",
+  //       apikey: "",
+  //     },
+  //   }
+  // )
 
 
   return (
     <View>
-      <Text>{"hello"}</Text>
-      <Text>Direction</Text>
+      <Text>{props.stationName}</Text>
     </View>
   )
 }
